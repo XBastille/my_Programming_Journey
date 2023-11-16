@@ -142,7 +142,7 @@ while True:
                         print("uhh, bro write the index pls hehe")
                 temp_card=player_hand.single_card(pos)
                 if single_card_check(top_card, temp_card):
-                    if temp_card.cardtype=='number':
+                    if temp_card.cardtype=="number":
                         top_card = player_hand.remove_card(pos)
                         turn='Computer'
                     else:

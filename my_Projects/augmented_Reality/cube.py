@@ -98,12 +98,9 @@ def makeContours(corners1,corners2):
 
 def getCorners(frame):
 	[all_cnts,cnts] = findcontours(frame,180)
-	#approximate quadralateral to each contour and extract corners
 	[tag_cnts,corners] = approx_quad(cnts)
 
 	tag_corners={}
-
-	#compute homography
 	dim = 200
 	for i,tag in enumerate(corners):
 		H = homography(tag,dim)
@@ -187,8 +184,6 @@ def avgCorners(past, current, future):
 		newcorners=np.divide(newcorners,len(templist))
 		newcorners=newcorners.astype(int)
 		newcorners=np.ndarray.tolist(newcorners)
-
-		# If any coner value is > n pixels from original keep original
 		teleport = False
 		for i in range(4):
 		    orig_x = current[tag][i][0]

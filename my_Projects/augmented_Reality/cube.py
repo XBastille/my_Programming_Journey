@@ -1,7 +1,6 @@
 import numpy as np
 import cv2
 from functions import*
-
 def projection_mat(K,H):
 	h1=H[:,0]
 	h2=H[:,1]
@@ -114,8 +113,6 @@ def getCorners(frame):
 		square_img = fastwarp(H_inv,frame,dim,dim)
 		imgray = cv2.cvtColor(square_img, cv2.COLOR_BGR2GRAY)
 		ret, square_img = cv2.threshold(imgray, 180, 255, cv2.THRESH_BINARY)
-
-		#encode squared tile
 		[tag_img,id_str,orientation] = encode_tag(square_img)
 
 		ordered_corners=[]

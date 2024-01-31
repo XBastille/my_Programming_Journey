@@ -107,7 +107,7 @@ class chitchat:
             a=initialization()
             datas=a.data_To_ai()
             print("Generating responese...")
-            openai.api_key="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"
+            openai.api_key="Your API-Keys here"
             response=openai.chat.completions.create(
                 model="gpt-3.5-turbo",
                 messages=[{"role":"user", "content":datas}]

@@ -148,10 +148,10 @@ class other_applications:
         if "open" in wish or "launch" in wish:
             self.webwork_7(l)
         else:
-            self.from_webwork_16(l)
+            self.webwork_16(l)
         while True:
             pass
-    def from_webwork_16(self, l):
+    def webwork_16(self, l):
         wish=" ".join(l[2:])
         engine.say(f"searching for {wish} in web")
         engine.runAndWait()

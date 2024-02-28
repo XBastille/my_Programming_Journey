@@ -119,26 +119,6 @@ class chitchat:
             engine.runAndWait()
             a.data()
 class other_applications:
-    def weather(self):
-        if cleo_check:
-            a=initialization()
-            n=ToastNotifier()
-            headers={'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}
-            r=requests.get("https://weather.com/en-IN/weather/today/l/68509ddcc58030eeb09cd5130641916746139e9174ab3527650e99b108d95ed9", headers=headers)
-            soup=BeautifulSoup(r.text, "html.parser")
-            current_info1=str(soup.find("div", class_="CurrentConditions--header--kbXKR").get_text())
-            current_info2=str(soup.find("span", class_="CurrentConditions--tempValue--MHmYY").get_text())
-            current_info3=str(soup.find("div", class_="CurrentConditions--phraseValue--mZC_p").get_text())
-            current_info4=str(soup.find("div", class_="CurrentConditions--tempHiLoValue--3T1DG").get_text())
-            l=current_info4.split("•")
-            res=(f"{current_info1}\n{current_info2}\n{current_info3}\n{current_info4}")
-            engine.say("WEATHER UPDATE")
-            engine.say(f"{current_info1}\nCurrent temperature is {current_info2}\nIt's {current_info3} today\ntemperature duing day is {l[0]} and during night is {l[1]}")
-            engine.runAndWait()
-            n.show_toast("WEATHER UPDATE", res, duration=10)
-            engine.say("Is there anything else that I can help you with?")   
-            engine.runAndWait()
-            a.data()
     def webwork(self):
         if not cleo_check:
             return

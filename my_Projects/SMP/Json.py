@@ -43,7 +43,7 @@ V = TypeVar('V')
 
 
 class Json(sdict, dict, MutableMapping[K, V]):
-    FORBIDEN_METHODS = ('__methods__', '__members__')  # Introduced due to PyCharm debugging accessing these methods
+    FORBIDEN_METHODS = ('__methods__', '__members__')  # Introduced due to VScode debugging accessing these methods
     
     @classmethod
     def __myAttrs(cls):
@@ -126,7 +126,7 @@ class Json(sdict, dict, MutableMapping[K, V]):
         elif isinstance(d, list):
             return JsonList(d)
         else:
-            raise NotImplementedError("Unknown JSON format: {}".format(d.__class__))
+            raise NotImplementedError(f"Unknown JSON format: {d.__class__}")
     
     @staticmethod
     def fromString(s, *args, **kwargs):
@@ -187,7 +187,7 @@ class Json(sdict, dict, MutableMapping[K, V]):
     
     def __getattr__(self, item):
         if item in self.FORBIDEN_METHODS:
-            raise AttributeError("Forbidden methods access to %s. Introduced due to PyCharm debugging problem." % str(
+            raise AttributeError("Forbidden methods access to %s. Introduced due to VScode debugging problem." % str(
                 self.FORBIDEN_METHODS))
         
         return self.__getitem__(item)

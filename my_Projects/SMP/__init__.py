@@ -2,7 +2,7 @@ __author__ = "eziopuhan825@gmail.com"
 
 from typing import Any, Type
 
-from pyxtension.safe_dict import SafeDict  # noqa: F401
+from SMP.safe_dict import SafeDict  # noqa: F401
 
 
 class ValidateError(ValueError):
@@ -47,8 +47,8 @@ class frozendict(dict):
             try:
                 fs = frozenset(self.items())
                 _hash = hash(fs)
-            except TypeError:
-                raise TypeError("Dictionary values are not hashable")
+            except TypeError as e:
+                raise TypeError("Dictionary values are not hashable") from e
             self._hash = _hash
 
         return _hash

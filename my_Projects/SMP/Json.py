@@ -3,7 +3,7 @@
 # Author: ASU --<eziopuhan825@gmail.com>
 
 """
-Python module that gives you a dictionary whose values are both gettable and settable using both attribute and getitem syntax
+Encoder and decoder phase plan of a SMP
 """
 import copy
 import json

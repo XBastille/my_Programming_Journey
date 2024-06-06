@@ -182,7 +182,7 @@ class Progbar(object):
         self._last_update = now
 
     # TODO Rename this here and in `update`
-    def _extracted_from_update_28(self, current):
+    def update_28(self, current):
         numdigits = int(floor(log10(self.target))) + 1
         barstr = '%%%dd/%d [' % (numdigits, self.target)
         result = barstr % current

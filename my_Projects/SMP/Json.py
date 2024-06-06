@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # coding:utf-8
-# Author: ASU --<eziopuhan825@gmail.com>
+# Author: KU --<eziopuhan825@gmail.com>
 
 """
 Encoder and decoder phase 1 prototype code of a SMP

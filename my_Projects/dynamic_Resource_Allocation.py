@@ -64,7 +64,7 @@ def increase_wineserver_priority():
                 # Increase the priority of wineserver process
                 process.nice(-15)
             except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
-                pass  # Handle exceptions as needed
+                pass  
 
 def increase_pulseaudio_priority():
     for process in psutil.process_iter(['pid', 'name']):
@@ -73,7 +73,7 @@ def increase_pulseaudio_priority():
                 # Increase the priority of wineserver process
                 process.nice(-20)
             except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
-                pass  # Handle exceptions as needed
+                pass 
 
 class DynamicThreadPool:
     def __init__(self, max_workers):
@@ -95,7 +95,7 @@ class DynamicThreadPool:
             # Decrease thread pool size if system load is low
             self.max_workers -= 10
             self.executor._max_workers = self.max_workers
-
+            # This logic is something I have come up with by doing numerous testing, changing these numbers might improve perfomance.
 invocation_counts = defaultdict(int)
 
 def measure_workload(thread_obj):
@@ -133,7 +133,7 @@ def current_thread_count(process, target_cores_high, target_cores_low):
     def data_transfer(thread_obj, target_cores):
         data_queue.put((thread_obj, target_cores))
 
-    # Batch Processing: Define the batch size
+    # here, I took the batch size as 10, any other size is also considerable (must be less than 100 otherwise it will lead to significant performance decrease
     batch_size = 10
 
     dynamic_thread_pool = DynamicThreadPool(max_workers=20)  # Initialize DynamicThreadPool

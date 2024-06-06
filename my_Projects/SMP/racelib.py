@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # coding:utf-8
-# Author: ASU --<eziopuhan825@gmail.com>
+# Author: KU --<eziopuhan825@gmail.com>
 # Purpose: Concurrent utility classes (name coming from RACEconditionLIBrary)
 # Created: 23/02/2024
 import threading

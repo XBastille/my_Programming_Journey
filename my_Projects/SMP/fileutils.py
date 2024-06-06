@@ -112,7 +112,7 @@ class Progbar(object):
         prev_total_width = self._total_width
 
         if self.target is not None:
-            bar = self._extracted_from_update_28(current)
+            bar = self.update_28(current)
         else:
             bar = '%7d/Unknown' % current
 

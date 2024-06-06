@@ -1,4 +1,4 @@
-# Author: ASU --<eziopuhan825@gmail.com>
+# Author: KU --<eziopuhan825@gmail.com>
 import json
 from abc import ABC
 from dataclasses import MISSING, Field, asdict, field, fields

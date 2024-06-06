@@ -3,7 +3,7 @@
 # Author: ASU --<eziopuhan825@gmail.com>
 
 """
-Encoder and decoder phase plan of a SMP
+Encoder and decoder phase 1 prototype code of a SMP
 """
 import copy
 import json

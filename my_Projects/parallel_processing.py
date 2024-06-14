@@ -1,3 +1,4 @@
+#NOTE:- This parallel processing file is outdated and a better version of this file is available at the official box64droid github page.
 import asyncio
 import datetime
 import logging

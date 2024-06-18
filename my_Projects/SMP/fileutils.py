@@ -153,7 +153,7 @@ class Progbar(object):
         if self._dynamic_display:
             prev_total_width = self._total_width
             self._total_width = len(display_str)
-            # ASU: if \r doesn't work, use \b - to move cursor one char back
+            # KU: if \r doesn't work, use \b - to move cursor one char back
             display_str = '\r' + display_str + ' ' * max(0, prev_total_width - len(display_str))
         else:
             display_str = display_str + '\n'

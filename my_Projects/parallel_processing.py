@@ -10,14 +10,15 @@ import statistics
 import subprocess
 import psutil
 from functools import wraps
-
+# Constants for maximum CPU and memory usage
 MAX_CPU_USAGE=70
+MAX_MEMORY_USAGE = 80  # Set a threshold for maximum memory usage
+# Logging configuration
 LOG_LEVEL=logging.INFO
-
 LOG_FILE_PATH="/sdcard/Box64Droid01/game_simulation.log"
 logging.basicConfig(filename=LOG_FILE_PATH, level=LOG_LEVEL, filemode='w')  
 logger=logging.getLogger(__name__)
-
+# Dictionary to track memory usage
 memory_usage_dict={}
 memory_lock=asyncio.Lock()
 
@@ -26,24 +27,17 @@ def memory_profiler(func):
     @wraps(func)
     async def wrapper(*args, **kwargs):
         try:
-            # Profile memory usage before function call
-            pre_memory_usage = psutil.virtual_memory().percent
-
+            pre_memory_usage = psutil.virtual_memory().percent  # Memory usage before function call
             result = await func(*args, **kwargs)
-
-            # Profile memory usage after function call
-            post_memory_usage = psutil.virtual_memory().percent
-
-            # Log memory usage change
+            post_memory_usage = psutil.virtual_memory().percent  # Memory usage after function call
             logger.info(f"Memory usage change after {func.__name__}: {pre_memory_usage}% -> {post_memory_usage}%")
-
             return result
         except Exception as e:
             logger.error(f"Error in memory_profiler for {func.__name__}: {e}")
             return None
-
     return wrapper
 
+# Process game data by combining raw game data and performance data
 async def process_game_data(raw_data, performance_data):
     try:
         return f"Processed data from raw data: {raw_data}. Performance Data: {performance_data}."
@@ -51,6 +45,7 @@ async def process_game_data(raw_data, performance_data):
         logger.error(f"Error in process_game_data: {e}")
         return None
 
+# Simulate a 3D game asynchronously for a given core and performance data
 async def simulate_3d_game_async(core, performance_data):
     try:
         game_data = await read_game_data_async(core)
@@ -74,6 +69,7 @@ async def simulate_3d_game_async(core, performance_data):
 MAX_MEMORY_USAGE = 80  # Set a threshold for maximum memory usage
 
 # this is the new function to handle data processing with memory optimization
+# Process data with memory optimization
 @memory_profiler
 async def process_data_with_memory_optimization(data):
     try:
@@ -85,50 +81,34 @@ async def process_data_with_memory_optimization(data):
         return None
 
 # Inside initialize_memory_dict function or any other relevant place
+# Initialize memory usage dictionary for all CPU cores
 async def initialize_memory_dict():
     async with memory_lock:
-        memory_usage_dict.clear()  # Clear existing data
+        memory_usage_dict.clear()
         for core in range(os.cpu_count()):
-            # Set initial memory usage to the actual value
             memory_usage_dict[core] = psutil.virtual_memory().percent
 
+# Check if memory initialization is needed based on the current memory usage
 async def need_initialization(max_memory_usage):
     try:
-        # Get current memory usage using psutil
         current_memory_usage = psutil.virtual_memory().percent
-
         return current_memory_usage > max_memory_usage
     except Exception as e:
         logger.error(f"Error in need_initialization: {e}")
         return False
 
+# Optimize data processing by removing unnecessary characters
 def optimize_data_processing(data):
     return ''.join(char for char in data if char not in [' ', '\n', '\t'])
 
-async def initialize_memory():
-    async with memory_lock:
-        memory_usage_dict.clear()
-        for core in range(os.cpu_count()):
-            memory_usage_dict[core] = 0
-            mem = psutil.virtual_memory()
-            memory_usage_dict[core] = mem.percent
-
-async def need_initialization():
-    try:
-        # Get current memory usage using psutil
-        current_memory_usage = psutil.virtual_memory().percent
-
-        return current_memory_usage > MAX_MEMORY_USAGE
-    except Exception as e:
-        logger.error(f"Error in need_initialization: {e}")
-        return False
-
+# Initialize memory usage dictionary
 async def initialize_memory():
     async with memory_lock:
         memory_usage_dict.clear()
         for core in range(os.cpu_count()):
             memory_usage_dict[core] = 0
 
+# Read Wine output data asynchronously
 @memory_profiler
 async def read_wine_output_data_async():
     try:
@@ -147,12 +127,14 @@ async def read_wine_output_data_async():
         logger.error(f"Error in read_wine_output_data_async: {e}")
         return None
 
+# Send optimized data to Termux
 async def send_optimized_data_to_termux(optimized_data):
     try:
         await communicate_with_termux(optimized_data)
     except Exception as e:
         logger.error(f"Error in send_optimized_data_to_termux: {e}")
 
+# Process Wine output data to extract relevant information
 def process_wine_output_data(wine_output_data):
     relevant_data = [
         line.strip()
@@ -161,20 +143,19 @@ def process_wine_output_data(wine_output_data):
     ]
     return '\n'.join(relevant_data)
 
+# Simulate a 3D game asynchronously for a given core and performance data
 async def simulate_3d_game_async(core, performance_data):
     try:
         game_data = await read_game_data_async(core)
         processed_data = process_game_data(game_data, performance_data)
         display_simulation_result(core, processed_data)
-
-        # Output or log performance data
         logger.info(f"Performance Data for Core {core}: {performance_data}")
-
         return processed_data
     except Exception as e:
         logger.error(f"Error in simulate_3d_game_async: {e}")
         return None
-
+        
+# Read game data asynchronously for a given core
 async def read_game_data_async(core):
     try:
         file_path = f"game_data_core_{core}.txt"
@@ -189,6 +170,7 @@ async def read_game_data_async(core):
         logger.error(f"Error in read_game_data_async: {e}")
         return None
 
+# Collect game data for a given core and write it to a file
 async def collect_game_data(core):
     cpu_usage = generate_random_cpu_usage()
     file_path = f"game_data_core_{core}.txt"
@@ -201,9 +183,11 @@ async def collect_game_data(core):
         await file.write(f"Collected data for core {core}. CPU Usage: {cpu_usage}%.")
     return f"Collected data for core {core}. CPU Usage: {cpu_usage}%."
 
+# Process game data by combining raw game data and performance data
 def process_game_data(raw_data, performance_data):
     return f"Processed data from raw data: {raw_data}. Performance Data: {performance_data}."
 
+# Record memory usage for a given core
 async def record_memory_usage(core, memory_data):
     async with memory_lock:
         memory_usage_dict[core] = memory_data
@@ -211,27 +195,24 @@ async def record_memory_usage(core, memory_data):
 MAX_CPU_USAGE_GROUP1 = 80
 MAX_CPU_USAGE_GROUP2 = 80
 
+# Adjust resources asynchronously based on performance data
 async def adjust_resources_async(perform_max, performance_data):
     try:
         if isinstance(performance_data, str):
             performance_data = {core: 0 for core in range(os.cpu_count())}
 
-        # Split cores into two groups
         group1_cores = [4, 5, 6, 7]
         group2_cores = list(set(range(os.cpu_count())) - set(group1_cores))
 
-        # Find the core with the lowest usage in each group
         lowest_group1_core = min(performance_data, key=lambda core: performance_data[core] if core in group1_cores else float('inf'))
         lowest_group2_core = min(performance_data, key=lambda core: performance_data[core] if core in group2_cores else float('inf'))
 
-        # Adjust resources for the group with the lowest usage
         if performance_data[lowest_group1_core] < performance_data[lowest_group2_core]:
             logger.info(f"Adjusting resources for Group 1. Lowest usage core: {lowest_group1_core}")
             for core in group1_cores:
                 if core != lowest_group1_core:
                     performance_data[core] += 10
                     logger.info(f"Adjusted CPU usage for core {core} to {performance_data[core]}%")
-
         elif performance_data[lowest_group2_core] < performance_data[lowest_group1_core]:
             logger.info(f"Adjusting resources for Group 2. Lowest usage core: {lowest_group2_core}")
             for core in group2_cores:
@@ -243,17 +224,21 @@ async def adjust_resources_async(perform_max, performance_data):
     except Exception as e:
         logger.error(f"Error in adjust_resources_async: {e}")
 
+# Record memory usage for all cores in the performance data
 async def record_memory_usages(performance_data):
     if isinstance(performance_data, str):
         performance_data = {core: 0 for core in range(os.cpu_count())}
     for core, memory_data in performance_data.items():
         await record_memory_usage(core, memory_data)
 
+# Simulate a game and adjust resources asynchronously for a given core
 async def simulate_game_and_adjust_resources_async(core, performance_data, perform_max=True):
     try:
-        await collect_game_data(core)  # Collect game data before simulation
-        simulation_task = asyncio.ensure_future(simulate_3d_game_async(core, performance_data))
-        await asyncio.gather(simulation_task, adjust_resources_async(perform_max, performance_data))
+        await collect_game_data(core)
+        simulation_task = asyncio.create_task(simulate_3d_game_async(core, performance_data))
+        adjust_task = asyncio.create_task(adjust_resources_async(perform_max, performance_data))
+        await asyncio.gather(simulation_task, adjust_task)
+        logger.info(f"Simulation and resource adjustment completed for core {core}.")
     except Exception as e:
         logger.error(f"Error in simulate_game_and_adjust_resources_async: {e}")
 
@@ -274,12 +259,16 @@ async def initialize_performance_data():
         logger.error(f"Error in initialize_performance_data: {e}")
         return {}
 
+# Generate random CPU usage percentage
 def generate_random_cpu_usage():
-    return random.uniform(30, 90)
+    return random.randint(0, 100)
+    
+# Display simulation results for a given core
+def display_simulation_result(core, data):
+    print(f"Simulation result for core {core}: {data}")
+    logger.info(f"Simulation result for core {core}: {data}")
 
-def display_simulation_result(core, processed_data):
-    logger.info(f"\n=== Simulation Result for Core {core} ===\n{processed_data}\n{'=' * 40}\nDisplaying on screen.")
-
+# Communicate with Termux (dummy function for demonstration purposes)
 async def communicate_with_termux():
     try:
         termux_data = "Hello from Python!"
@@ -492,7 +481,8 @@ async def main():
 
     except KeyboardInterrupt:
         logger.info("Program interrupted by user.")
-
+        
+# Main function to run the asyncio event loop
 if __name__ == "__main__":
     loop = asyncio.get_event_loop()
 
